@@ -8,7 +8,9 @@
             var titles = "";
             console.log(data);
             data.posts.forEach(function(title){
+                titles += '<div class="alert alert-success" role="alert">'
                 titles += title.subject;
+                titles += '</div>'
                 content.html(titles);
             });
         }

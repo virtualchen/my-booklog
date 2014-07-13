@@ -53,4 +53,8 @@ exports.index = function(req, res){
   res.send(response);
 };
 
+exports.readAllUsers = function(req, res){
+  
+};
+
 

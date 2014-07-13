@@ -93,7 +93,7 @@ exports.readAllUsers = function(req, res){
 	.exec(function(err, users){
 
 		users.forEach(function(user){
-			User.Email = model.trunkEmail(user.Email);
+			user.Email = model.trunkEmail(user.Email);
 		});
 
 		res.send(users);

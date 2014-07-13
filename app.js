@@ -53,8 +53,8 @@ var userScheme = new mongoose.Schema({
 //create index
 userScheme.index({Address : 1});
 
-userScheme.static.trunkEmail = function(email){
-	return "_HIDE";
+userScheme.statics.trunkEmail = function(email){
+	return "_HIDE_";
 };
 
 

@@ -54,20 +54,27 @@ var userScheme = new mongoose.Schema({
 userScheme.index({Address : 1});
 
 userScheme.statics.trunkEmail = function(email){
-	return "_HIDE_";
+	return "###" + email;
 };
 
+var postSchema = new mongoose.Schema({
+	uid: { type:mongoose.Schema.Types.ObjectId, ref: 'user'},
+	title: String,
+	content: String
+});
 
 /*integrate into Express framework */
 app.db = {
 	models:{
-		User:mongoose.model('user',userScheme)
+		User:mongoose.model('user',userScheme),
+		Post:mongoose.model('post',postSchema),
 	}
 };
 
 app.get('/1/post', api.readAll);
 app.post('/1/post', api.createOne);
 app.get('/1/user', api.readAllUsers);
+
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

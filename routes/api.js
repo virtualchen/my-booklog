@@ -49,12 +49,43 @@ var response = {
     }
   ]
 };
-exports.index = function(req, res){
+
+
+exports.readAll = function(req, res){
   res.send(response);
 };
 
+exports.createOne = function(req, res){
+  var post = req.query;
+  response.post.push(post);
+  res.send({status: 'ok'});
+};
+
+
 exports.readAllUsers = function(req, res){
-  
+	//print('in all user');
+	var model = req.app.db.models.User;
+	var query = req.query;
+	var filter = {};
+
+	console.log(query);
+
+	if(typeof(query.age) !== 'undefined'){
+		filter = {
+			Age:query.age
+		}
+	}
+
+	if(typeof(query.addr) !== 'undefined'){
+		filter['Address'] = new RegExp(query.addr);
+	}
+
+	console.log(filter);
+
+	model.find(filter, function(err, users){
+		res.send(users);
+		res.end();
+	});  
 };
 
 

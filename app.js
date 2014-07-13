@@ -29,10 +29,36 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-app.get('/', routes.index);
-app.get('1/post', api.readAll);
-app.post('1/post', api.createOne);
-app.get('1/user', api.readAllUsers);
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/booklog');
+var conn = mongoose.connection;
+conn.on('error',console.error.bind(console,'connection error:'));
+conn.once('open',function callback(){
+	console.log('mongoDB lulala');
+	conn.db.collectionNames(function (err, names){
+		console.log(names);
+	});
+});
+
+var userScheme = new mongoose.Schema({
+	Name : {type:String, default:''},
+	Phone : String,
+	Email : String,
+	Address : String,
+	Age : {type:Number,default:0}
+});
+
+/*integrate into Express framework */
+app.db = {
+	models:{
+		User:mongoose.model('user',userScheme)
+	}
+};
+
+app.get('/1/post', api.readAll);
+app.post('/1/post', api.createOne);
+app.get('/1/user', api.readAllUsers);
+
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });

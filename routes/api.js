@@ -1,5 +1,14 @@
 exports.readAll = function(req, res){
-  res.send(response);
+  	var model = req.app.db.models.Post;
+	var query = req.query;
+
+	model
+	.find()
+	.populate('uid')
+	.exec(function(err, posts){
+		res.send(posts);
+		res.end();
+	});
 };
 
 exports.createOne = function(req, res){
@@ -52,7 +61,7 @@ exports.readAllUsers = function(req, res){
 	model
 	.find(filter)
 	.sort('Name')
-	.select('Name Email')
+	.select('Name Email Address Phone')
 	.exec(function(err, users){
 
 		users.forEach(function(user){

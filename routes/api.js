@@ -71,21 +71,34 @@ exports.readAllUsers = function(req, res){
 	console.log(query);
 
 	if(typeof(query.age) !== 'undefined'){
-		filter = {
-			Age:query.age
-		}
+	filter['Age'] = query.age;
 	}
 
 	if(typeof(query.addr) !== 'undefined'){
 		filter['Address'] = new RegExp(query.addr);
 	}
+	if(typeof(query.interests) !== 'undefined'){
+		filter['Interests'] = { $in:['sport']};
+	}
+
 
 	console.log(filter);
 
-	model.find(filter, function(err, users){
+
+
+	model
+	.find(filter)
+	.sort('Name')
+	.select('Name Email')
+	.exec(function(err, users){
+
+		users.forEach(function(user){
+			User.Email = model.trunkEmail(user.Email);
+		});
+
 		res.send(users);
 		res.end();
-	});  
+	});
 };
 
 

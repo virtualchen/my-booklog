@@ -47,7 +47,10 @@ var userScheme = new mongoose.Schema({
 	Address : String,
 	Age : {type:Number,default:0},
 	Interests: [{type: String}],
-	Updated: { type: Date, default: Date.now}
+	Updated: { type: Date, default: Date.now},
+
+	/*mapReduce*/
+	postsId : { type: mongoose.Schema.Types.ObjectId, ref: 'userPost'}
 });
 
 //create index
@@ -61,6 +64,13 @@ var postSchema = new mongoose.Schema({
 	uid: { type:mongoose.Schema.Types.ObjectId, ref: 'user'},
 	title: String,
 	content: String
+});
+
+var userTotalSchema = new mongoose.Schema({
+	value: { type : Number, default: 0}
+	});
+var userPostsSchema = new mongoose.Schema({
+	value: { type : Number, default: 0}
 });
 
 /*integrate into Express framework */

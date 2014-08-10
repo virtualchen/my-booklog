@@ -91,3 +91,17 @@ exports.readAllUsers = function(req, res){
 };
 
 
+exports.readUserById = function(req, res){
+	//print('in all user');
+	var model = req.app.db.models.User;
+	var userId = req.params.id;
+
+
+
+	model
+	.find({ _id: userId})
+	.exec(function(err, user){
+		res.send(user);
+		res.end();
+	});
+};

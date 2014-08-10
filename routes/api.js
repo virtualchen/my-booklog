@@ -103,6 +103,25 @@ exports.readAllUsers = function(req, res){
 	});
 };
 
+exports.readAllUsersByMapReduce = function(req, res){
+	//print('in all user');
+	var model = req.app.db.models.User;
+	model.aggregate([
+	{ $project: { id: 1, Name:1,  Email:1, Address: 1, Age:1, postId:1 }},
+	{ $group: { _id: '$Age'
+			, total: { $sum:1 }
+			, Name : { $last:'$Name'}
+			, Email : { $last: '$Email'}
+			, PostId : { $last: '$_id'}
+		}}
+	])
+	.exec(function(err, users){
+		res.send(users);
+		res.end();
+	});
+	
+};
+
 
 exports.readUserById = function(req, res){
 	//print('in all user');

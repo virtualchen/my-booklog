@@ -83,7 +83,7 @@ app.db = {
 
 app.get('/1/post', api.readAll);
 app.post('/1/post', api.createOne);
-app.get('/1/user', api.readAllUsers);
+app.get('/1/user', api.readAllUsersByMapReduce);
 app.get('/1/age', api.readByAge);
 app.get('/1/user/:id', api.readUserById);
 

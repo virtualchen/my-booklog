@@ -11,6 +11,19 @@ exports.readAll = function(req, res){
 	});
 };
 
+
+exports.readAllUser = function(req, res){
+  	var model = req.app.db.models.User;
+	var query = req.query;
+
+	model
+	.find()
+	.exec(function(err, posts){
+		res.send(posts);
+		res.end();
+	});
+};
+
 exports.readByAge = function(req, res){
   	var model = req.app.db.models.User;
 	
@@ -37,7 +50,7 @@ exports.createOne = function(req, res){
   var query = req.query;
   var post;
   post = {
-  	uid:'53c1f6775942c222919a020d',
+  	uid:query.uid,
   	title: query.title,
   	content: query.content
   };

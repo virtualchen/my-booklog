@@ -11,6 +11,23 @@ exports.readAll = function(req, res){
 	});
 };
 
+exports.readByAge = function(req, res){
+  	var model = req.app.db.models.User;
+	
+	model
+	.aggregate([
+		{ $project : { Age: 1, Phone: 1 }	},
+		{ $match : { $or: [{'Age': 30},{'Age': 50}] } },
+		{ $group : { _id: '$Age', total: { $sum: 1} } }		
+		])
+	.exec(function(err, posts){
+		res.send(posts);
+		res.end();
+	});
+};
+
+
+
 exports.createOne = function(req, res){
   /*var post = req.query;
   response.post.push(post);

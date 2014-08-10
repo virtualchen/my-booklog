@@ -74,7 +74,7 @@ app.db = {
 app.get('/1/post', api.readAll);
 app.post('/1/post', api.createOne);
 app.get('/1/user', api.readAllUsers);
-
+app.get('/1/age', api.readByAge);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
